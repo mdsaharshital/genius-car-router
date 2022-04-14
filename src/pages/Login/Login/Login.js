@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
+import SocialLogin from "../../Shared/SocialLogin/SocialLogin";
 import auth from "./../../../firebase.init";
 
 const Login = () => {
@@ -72,6 +73,7 @@ const Login = () => {
           </span>
         </p>
       }
+      <SocialLogin />
     </div>
   );
 };
