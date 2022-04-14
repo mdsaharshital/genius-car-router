@@ -5,3 +5,6 @@
 - auth redirect
 - private route setup
   (protected route using service(book now button) section)
+- primarily safe firebase init file
+- sign in with github, google & user name, email and password with email verification
+-

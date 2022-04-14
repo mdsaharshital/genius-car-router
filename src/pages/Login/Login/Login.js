@@ -1,9 +1,15 @@
 import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useSendPasswordResetEmail,
+  useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
+import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "../../Shared/SocialLogin/SocialLogin";
 import auth from "./../../../firebase.init";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const emailRef = useRef("");
@@ -15,36 +21,43 @@ const Login = () => {
 
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
-
+  const [sendPasswordResetEmail, sending, ForgetError] =
+    useSendPasswordResetEmail(auth);
   if (user) {
     navigate(from, { replace: true });
   }
-
+  if (loading || sending) {
+    return <Loading />;
+  }
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     signInWithEmailAndPassword(email, password);
   };
+  const handleForgetPassword = async () => {
+    const email = emailRef.current.value;
+    if (email) {
+      await sendPasswordResetEmail(email);
+      toast("email Sent");
+    } else {
+      toast("Please enter your email adress");
+    }
+  };
   return (
     <div className="container mx-auto w-50 my-4">
       <h1 className="text-center">Please Login</h1>
       <Form onSubmit={handleLoginSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
           <Form.Control
             ref={emailRef}
             type="email"
             placeholder="Enter email"
             required
           />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
           <Form.Control
             ref={passwordRef}
             type="password"
@@ -52,11 +65,12 @@ const Login = () => {
             required
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
+        <Button
+          className="w-50 mx-auto d-block my-2"
+          variant="primary"
+          type="submit"
+        >
+          Login
         </Button>
       </Form>
       {error && <p className="text-danger">{error.message}</p>}
@@ -66,13 +80,26 @@ const Login = () => {
           New to Genius Car?{" "}
           <span
             onClick={() => navigate("/register")}
-            className="text-warning"
+            className="text-primary"
             style={{ cursor: "pointer" }}
           >
             Please Register
           </span>
         </p>
       }
+      {
+        <p>
+          Forget Password?{" "}
+          <span
+            onClick={handleForgetPassword}
+            className="text-primary"
+            style={{ cursor: "pointer" }}
+          >
+            Reset Now
+          </span>
+        </p>
+      }
+      <ToastContainer />
       <SocialLogin />
     </div>
   );
