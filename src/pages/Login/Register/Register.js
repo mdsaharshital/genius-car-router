@@ -34,7 +34,7 @@ const Register = () => {
     return <Loading />;
   }
   return (
-    <div className="container mx-auto w-50 my-4">
+    <div className="container mx-auto col col-md-6 mx-auto my-4">
       <h1 className="text-center">Please Register</h1>
       <Form onSubmit={handleRegisterSubmit}>
         <Form.Group className="mb-3" controlId="formBasicName">

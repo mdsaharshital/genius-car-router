@@ -43,16 +43,16 @@ const SocialLogin = () => {
       <div className="">
         <button
           onClick={() => signInWithGoogle()}
-          className="w-50 btn btn-outline-secondary mx-auto d-block my-2"
+          className="w-75   btn btn-outline-secondary mx-auto d-block my-2"
         >
           <BsGoogle /> Sign in with Google
         </button>
-        <button className="w-50 btn btn-outline-secondary mx-auto d-block my-2">
+        {/* <button className="w-100  btn btn-outline-secondary mx-auto d-block my-2">
           <BsFacebook /> Sign in with Facebook
-        </button>
+        </button> */}
         <button
           onClick={() => signInWithGithub()}
-          className="w-50 btn btn-outline-secondary mx-auto d-block my-2"
+          className="w-75  btn btn-outline-secondary mx-auto d-block my-2"
         >
           <GoMarkGithub /> Sign in with Github
         </button>

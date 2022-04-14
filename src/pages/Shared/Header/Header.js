@@ -51,7 +51,6 @@ const Header = () => {
               <Nav.Link as={Link} to="/about">
                 About
               </Nav.Link>
-              <span className="text-white">{user?.displayName}</span>
               {user?.uid ? (
                 <Nav.Link onClick={logOut} eventKey={2} as={Link} to="/">
                   Log Out
