@@ -1,20 +1,27 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import auth from "./../../../firebase.init";
 
 const Register = () => {
-  const emailRef = useRef("");
-  const passwordRef = useRef("");
-  const confirmPasswordRef = useRef("");
   const navigate = useNavigate();
+
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
+
+    createUserWithEmailAndPassword(email, password);
     console.log(name, email, password);
   };
+  if (user) {
+    navigate("/home");
+  }
   return (
     <div className="container mx-auto w-50 my-4">
       <h1 className="text-center">Please Register</h1>
@@ -22,7 +29,6 @@ const Register = () => {
         <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Label>Name</Form.Label>
           <Form.Control
-            ref={emailRef}
             type="text"
             name="name"
             placeholder="Enter Your name"
@@ -32,7 +38,6 @@ const Register = () => {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
-            ref={emailRef}
             type="email"
             name="email"
             placeholder="Enter email"
@@ -46,7 +51,6 @@ const Register = () => {
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
-            ref={passwordRef}
             type="password"
             name="password"
             placeholder="Password"
