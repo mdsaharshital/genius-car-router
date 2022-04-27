@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const AddUser = () => {
+const AddService = () => {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     console.log(data);
@@ -56,4 +56,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default AddService;
