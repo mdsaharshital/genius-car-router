@@ -10,6 +10,7 @@ import NotFound from "./pages/Shared/NotFound/NotFound";
 import ServiceDetails from "./pages/ServiceDetails/ServiceDetails";
 import Footer from "./pages/Shared/Footer/Footer";
 import Header from "./pages/Shared/Header/Header";
+import AddUser from "./pages/AddUser/AddUser";
 
 function App() {
   return (
@@ -22,6 +23,14 @@ function App() {
         <Route path="/about" element={<About />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
+        <Route
+          path="/adduser"
+          element={
+            <RequireAuth>
+              <AddUser />
+            </RequireAuth>
+          }
+        ></Route>
         <Route
           path="/checkout"
           element={
