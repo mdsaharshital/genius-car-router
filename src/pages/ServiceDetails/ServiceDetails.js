@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import useServiceDetails from "../../hooks/useServiceDetails";
 
 const ServiceDetails = () => {
   const { serviceId } = useParams();
-  const [service, setService] = useState({});
-  const url = `http://localhost:5000/service/${serviceId}`;
-  useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setService(data));
-  }, []);
+  const [service] = useServiceDetails(serviceId);
   return (
     <div>
       <h2 className="text-center my-4">
@@ -18,7 +13,7 @@ const ServiceDetails = () => {
         <span className="text-danger">{service.name}</span>
       </h2>
       <div className="text-center my-5">
-        <Link to={"/checkout"}>
+        <Link to={`/checkout/${serviceId}`}>
           <button className="btn btn-success">Proceed Checkout</button>
         </Link>
       </div>

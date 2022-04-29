@@ -7,7 +7,7 @@ const ManageService = () => {
     const proceed = window.confirm("are you sure?");
     if (proceed) {
       console.log("delete id", id);
-      const url = `http://localhost:5000/service/${id}`;
+      const url = `https://powerful-forest-43309.herokuapp.com/service/${id}`;
       fetch(url, {
         method: "DELETE",
       })

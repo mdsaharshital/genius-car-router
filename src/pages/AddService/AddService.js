@@ -5,7 +5,7 @@ const AddService = () => {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-    fetch("http://localhost:5000/service", {
+    fetch("https://powerful-forest-43309.herokuapp.com/service", {
       method: "POST",
       headers: {
         "content-type": "application/json",

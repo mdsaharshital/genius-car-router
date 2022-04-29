@@ -10,6 +10,7 @@ import SocialLogin from "../../Shared/SocialLogin/SocialLogin";
 import auth from "./../../../firebase.init";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useToken from "../../../hooks/useToken";
 
 const Login = () => {
   const emailRef = useRef("");
@@ -21,20 +22,21 @@ const Login = () => {
 
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
-  const [sendPasswordResetEmail, sending, ForgetError] =
-    useSendPasswordResetEmail(auth);
-  if (user) {
-    navigate(from, { replace: true });
-  }
+  const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
+
+  const [token] = useToken(user);
   if (loading || sending) {
     return <Loading />;
   }
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    signInWithEmailAndPassword(email, password);
+    await signInWithEmailAndPassword(email, password);
   };
+  if (token) {
+    navigate(from, { replace: true });
+  }
   const handleForgetPassword = async () => {
     const email = emailRef.current.value;
     if (email) {

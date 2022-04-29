@@ -1,13 +1,14 @@
 import React from "react";
-import { BsFacebook, BsGoogle } from "react-icons/bs";
+import { BsGoogle } from "react-icons/bs";
 import { GoMarkGithub } from "react-icons/go";
 import {
   useSignInWithGoogle,
   useSignInWithGithub,
 } from "react-firebase-hooks/auth";
 import auth from "./../../../firebase.init";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
+import useToken from "../../../hooks/useToken";
 
 const SocialLogin = () => {
   const [signInWithGoogle, googleUser, GoogleLoading, GoogleError] =
@@ -15,6 +16,10 @@ const SocialLogin = () => {
   const [signInWithGithub, githubUser, githubLoading, githubError] =
     useSignInWithGithub(auth);
   const navigate = useNavigate();
+  let location = useLocation();
+  const [token] = useToken(googleUser || githubUser);
+
+  let from = location.state?.from?.pathname || "/";
   let errorElement;
   if (GoogleError || githubError) {
     errorElement = (
@@ -26,8 +31,8 @@ const SocialLogin = () => {
       </div>
     );
   }
-  if (googleUser || githubUser) {
-    navigate("/home");
+  if (token) {
+    navigate(from, { replace: true });
   }
   if (GoogleLoading || githubLoading) {
     return <Loading />;
